@@ -20,6 +20,8 @@ export const fetchData = async () => {
   }
   
   export const postRequest = async (formData, endPoint) => {
-    const response = await axios.post(`${API_URL}${endPoint}`, formData);
+    const response = await axios.post(`${API_URL}${endPoint}`, formData, {
+      withCredentials: true,
+    })
     return response.data;
   }
