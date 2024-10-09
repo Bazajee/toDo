@@ -1,25 +1,30 @@
 import React, { useState, useData } from 'react'
-import { postRequest } from '../apiService.js/requestToBack'
+import { postRequest } from '../apiService/requestToBack'
+import { useAuth } from '../appState/authData'
+import { json } from 'react-router-dom';
+
+
 
 const loginPage = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const { login, user } = useAuth() 
 
-    const  handleSubmit = async (e) => {
-    e.preventDefault();
-
-    console.log('Email:', email)
-    console.log('Password:', password)
-    
+  const  handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log('Email:', email,'Password:', password)
     const formData = { "email":email,  "password":password };
     console.log(formData)
-        try {
-          const response = await postRequest(formData, '/auth/login');
-          console.log('Login successful:', response);
-        } catch (error) {
-          console.error('Login failed:', error);
-        }
-      
+
+    try {
+      const response = await postRequest(formData, '/auth/login')
+      sessionStorage.setItem('appUser', JSON.stringify(response.userData))
+      console.log('session storage:',sessionStorage.getItem('appUser'))
+      console.log('Login successful:', response.userData);
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  
   }
 
   return (

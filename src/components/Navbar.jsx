@@ -1,8 +1,12 @@
 import React from "react";
-import 'bootstrap/dist/js/bootstrap.bundle.min';
-import { Link } from "react-router-dom";
+import 'bootstrap/dist/js/bootstrap.bundle.min'
+import { useAuth } from "../appState/authData"
 
 const Navbar = () => {
+   const { logout } = useAuth()
+
+
+
    return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
          <div className="container-fluid">
@@ -22,18 +26,18 @@ const Navbar = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                <div className="navbar-nav">
-                  <a className="nav-link active" aria-current="page" href="#">
+                  <button className="nav-link active" aria-current="page" href="#">
                      Home
-                  </a>
+                  </button>
                   <a className="nav-link" href="#">
                      Features
                   </a>
                   <a className="nav-link" href="#">
                      Pricing
                   </a>
-                  <a className="nav-link disabled" aria-disabled="true">
-                     Disabled
-                  </a>
+                  <button className="nav-link " onClick={logout} aria-disabled="true">
+                     logout
+                  </button>
                </div>
             </div>
          </div>
