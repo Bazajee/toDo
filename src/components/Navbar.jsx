@@ -1,17 +1,15 @@
 import React from "react";
-import 'bootstrap/dist/js/bootstrap.bundle.min'
-import { useAuth } from "../appState/authData"
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import { useAuth } from "../appState/authData";
 
 const Navbar = () => {
-   const { logout } = useAuth()
-
-
+   const { logout } = useAuth();
 
    return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
          <div className="container-fluid">
             <a className="navbar-brand" href="#">
-             List
+               List
             </a>
             <button
                className="navbar-toggler"
@@ -26,7 +24,11 @@ const Navbar = () => {
             </button>
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                <div className="navbar-nav">
-                  <button className="nav-link active" aria-current="page" href="#">
+                  <button
+                     className="nav-link active"
+                     aria-current="page"
+                     href="#"
+                  >
                      Home
                   </button>
                   <a className="nav-link" href="#">
@@ -35,7 +37,11 @@ const Navbar = () => {
                   <a className="nav-link" href="#">
                      Pricing
                   </a>
-                  <button className="nav-link " onClick={logout} aria-disabled="true">
+                  <button
+                     className="nav-link "
+                     onClick={logout}
+                     aria-disabled="true"
+                  >
                      logout
                   </button>
                </div>

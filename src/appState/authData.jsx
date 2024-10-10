@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(sessionStorage.getItem('appUser'))
 
 
-
   const login = (newData) => {
     sessionStorage.setItem('appUser', newData)
     setUser(newData);
@@ -19,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null)
     Cookies.remove('jwt')
-    sessionStorage.clear
+    sessionStorage.clear()
   };
 
   return (
@@ -27,11 +26,9 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-
-  
 };
 
-// Custom hook to use the AuthContext
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };

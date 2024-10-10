@@ -1,7 +1,7 @@
-import React, { useState, useData } from 'react'
+import React, { useState, useData, useEffect, useContext } from 'react'
 import { postRequest } from '../apiService/requestToBack'
 import { useAuth } from '../appState/authData'
-import { json } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -9,24 +9,26 @@ const loginPage = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const { login, user } = useAuth() 
+  const navigate = useNavigate()
 
   const  handleSubmit = async (e) => {
     e.preventDefault()
-    console.log('Email:', email,'Password:', password)
     const formData = { "email":email,  "password":password };
-    console.log(formData)
-
     try {
+      // add if who read response 
       const response = await postRequest(formData, '/auth/login')
-      sessionStorage.setItem('appUser', JSON.stringify(response.userData))
-      console.log('session storage:',sessionStorage.getItem('appUser'))
-      console.log('Login successful:', response.userData);
+      login((JSON.stringify(response.userData)))
+      navigate('')
+      
     } catch (error) {
       console.error('Login failed:', error);
     }
-  
+    console.log(user)
   }
 
+  function navigateToSIgnUp () {
+    navigate('/signup')
+  }
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow-lg p- w-100" style={{ width: '400px' }}>
@@ -57,10 +59,12 @@ const loginPage = () => {
           <button type="submit" className="btn btn-primary w-100">Login</button>
         </form>
         <div className="text-center mt-3">
-          <a href="#" className="text-decoration-none">Forgot your password?</a>
-        <div className="text-center mt-3">
-          <a href="#" className="text-decoration-none">New user? </a>
-        </div>
+          <div className="text-center mt-3">
+            <a href="#" className="text-decoration-none">Forgot your password?</a>
+          </div>
+          <div className="text-center mt-3">
+            <a href="#" onClick={navigateToSIgnUp} className="text-decoration-none">New user? </a>
+          </div>
         </div>
       </div>
     </div>
