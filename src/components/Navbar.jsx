@@ -1,14 +1,26 @@
 import React from "react";
-import "bootstrap/dist/js/bootstrap.bundle.min";
-import { useAuth } from "../appState/authData";
+import "bootstrap/dist/js/bootstrap.bundle.min"
+import { useAuth } from "../appState/authData"
+import { useNavigate } from 'react-router-dom'
+
+
 
 const Navbar = () => {
-   const { logout } = useAuth();
+
+   const { logout } = useAuth()
+   const navigate = useNavigate()
+
+   function navigateToHome () {
+    navigate('/')
+   }
 
    return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
          <div className="container-fluid">
-            <a className="navbar-brand" href="#">
+            <a 
+                className="navbar-brand" href="#"
+                onClick={navigateToHome}
+            >
                List
             </a>
             <button
@@ -25,16 +37,16 @@ const Navbar = () => {
             <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                <div className="navbar-nav">
                   <button
-                     className="nav-link active"
+                     className="nav-link  disabled"
                      aria-current="page"
                      href="#"
                   >
                      Home
                   </button>
-                  <a className="nav-link" href="#">
+                  <a className="nav-link disabled" href="#">
                      Features
                   </a>
-                  <a className="nav-link" href="#">
+                  <a className="nav-link disabled " href="#">
                      Pricing
                   </a>
                   <button

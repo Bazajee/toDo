@@ -10,20 +10,18 @@ const loginPage = () => {
   const [password, setPassword] = useState('')
   const { login, user } = useAuth() 
   const navigate = useNavigate()
+  const [message, setMessage] = useState('')
 
   const  handleSubmit = async (e) => {
     e.preventDefault()
     const formData = { "email":email,  "password":password };
     try {
-      // add if who read response 
-      const response = await postRequest(formData, '/auth/login')
-      login((JSON.stringify(response.userData)))
+      const response = await postRequest('/auth/login', formData)
+      login(formData)
       navigate('')
-      
     } catch (error) {
-      console.error('Login failed:', error);
+      setMessage(`Login failed: ${error.response.data.message}`);
     }
-    console.log(user)
   }
 
   function navigateToSIgnUp () {
@@ -65,6 +63,9 @@ const loginPage = () => {
           <div className="text-center mt-3">
             <a href="#" onClick={navigateToSIgnUp} className="text-decoration-none">New user? </a>
           </div>
+          <div>
+                <p className='text-danger' id='displayMessage' >{ message }</p>
+            </div>
         </div>
       </div>
     </div>
