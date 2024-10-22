@@ -3,6 +3,7 @@ import React from 'react';
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth, AuthProvider}from './appState/authData'
+import { NotesProvider } from './appState/noteData';
 
 import Navbar from './components/Navbar'
 import LoginPage from './pages/loginPage'
@@ -33,9 +34,11 @@ const MainApp = () => {
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <MainApp /> 
-      </Router>
+      <NotesProvider>
+        <Router>
+          <MainApp /> 
+        </Router>
+      </NotesProvider>
     </AuthProvider>
   );
 }
