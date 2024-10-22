@@ -9,8 +9,7 @@ export const NotesProvider = ({ children }) => {
     )
 
     const initNotes = async (notesResponse) => {
-        console.log("note->", typeof notesResponse, notesResponse);
-        localStorage.setItem("notesArray", JSON.stringify(notesResponse));
+        localStorage.setItem("notesArray", JSON.stringify(notesResponse))
         setNotesArray(notesResponse);
     }
 
