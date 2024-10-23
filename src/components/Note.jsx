@@ -2,8 +2,8 @@ import React from 'react'
 
 const HomeNote = ({ note }) => {
     return (
-      <div className="container-fluid">
-        <h3 className=''>{note.title}</h3>
+      <div className="">
+        <h3 className='d-flex justify-content-start'>{note.title}</h3>
         <p>{note.creationDate} </p>
     </div>
   );

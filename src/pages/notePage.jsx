@@ -27,20 +27,6 @@ const NotePage = () => {
     return (
         <>
             <div id="test" className='container'>
-                
-                {/* <div >
-                    <div className="d-flex justify-content-start align-items-center" >
-                        <h1 className="text-truncate" style={{ margin: 0 }} >{note.title+note.title}</h1>
-                        <p >{id}</p>
-                    </div>
-                    <div>
-                    </div>
-                </div>
-                <div className='container'>
-                    <div className='row'/>
-                </div> */}
-
-
                 <div id="test" className='container'>
                     {loading ? (
                         <div className="spinner-border" role="status">
@@ -48,7 +34,7 @@ const NotePage = () => {
                         </div>
                     ) : (
                         <div>
-                            <div className="d-flex justify-content-start align-items-center">
+                            <div className="d-flex justify-content-start align-items-start">
                                 <h1 className="text-truncate" style={{ margin: 0 }}>{note.title || "Note Title"}</h1>
                                 <p>{id}</p>
                             </div>

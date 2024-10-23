@@ -31,15 +31,14 @@ const home = () => {
     }
 
     useEffect(() => {
-        initData();
-        console.log(notesArray);
+        initData()
     }, [user]);
 
     return (
         <>
             <div id="home-container" className="container">
                 <div className="d-flex justify-content-end">
-                    <button type="button" className="btn btn-light btn-lg btn-block d-flex justify-content-center align-items-center ">
+                    <button type="button" className="btn btn-light btn-lg btn-block d-flex justify-content-start align-items-start ">
                         <img src="src/assets/pen.svg" className="" style={{ width: '20px', height: '20px' }} alt="New" />
                         
                     </button>
@@ -49,9 +48,9 @@ const home = () => {
                 </div>
                 <div className="container-fluid">
 
-                    {notesArray.map((note) => (
+                    {notesArray.slice().reverse().map((note) => (
                         <div key={note.id} 
-                        className="btn"
+                        className="btn d-flex justify-content-start align-items-start "
                         onClick={()=>{clickOnNote(note.id)}}
                         >
                             <HomeNote  note={note} />
