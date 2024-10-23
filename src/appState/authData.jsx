@@ -1,8 +1,9 @@
 import { createContext, useState, useContext, useEffect } from "react"
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
+import { useNavigate } from 'react-router-dom';
 
 
-export const AuthContext = createContext();
+export const AuthContext = createContext()
 
 
 export const AuthProvider = ({ children }) => {

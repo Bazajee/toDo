@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom"
 
 const loginPage = () => {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState("")
+    const [message, setMessage] = useState("")
+    
     const { login, user } = useAuth();
     const navigate = useNavigate();
-    const [message, setMessage] = useState("");
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,7 +28,7 @@ const loginPage = () => {
         navigate("/signup");
     }
     return (
-        <div className="container d-flex justify-content-center align-items-center vh-100">
+        <div className="container d-flex justify-content-center align-items-center">
             <div className="card shadow-lg p- w-100" style={{ width: "400px" }}>
                 <h2 className="text-center mb-4">Login</h2>
                 <form onSubmit={handleSubmit}>

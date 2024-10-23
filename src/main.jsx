@@ -6,6 +6,6 @@ import './index.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <App className="container-fluid w-100 h-100 d-flex flex-column align-items-start justify-content-start"/>
   </StrictMode>,
 )

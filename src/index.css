@@ -31,7 +31,9 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  /* font-size: 3.2em;
+  line-height: 1.1; */
+  font-size: 8vw; /* Scales with the viewport width */
   line-height: 1.1;
 }
 
