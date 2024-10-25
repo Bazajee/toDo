@@ -7,7 +7,7 @@ const loginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [message, setMessage] = useState("")
-    
+
     const { login, user } = useAuth();
     const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ const loginPage = () => {
     }
     return (
         <div className="container d-flex justify-content-center align-items-center">
-            <div className="card shadow-lg p- w-100" style={{ width: "400px" }}>
+            <div className="card shadow-lg  " style={{ maxWidth:"200" }}>
                 <h2 className="text-center mb-4">Login</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
