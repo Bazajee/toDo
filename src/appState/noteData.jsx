@@ -8,10 +8,17 @@ export const NotesProvider = ({ children }) => {
         () => JSON.parse(localStorage.getItem("notesArray")) || []
     )
 
-    const initNotes = async (notesResponse) => {
-        localStorage.setItem("notesArray", JSON.stringify(notesResponse))
-        setNotesArray(notesResponse);
+    
+
+    const initNotes =  (notesResponse) => {
+        if (Array.isArray(notesResponse) && notesResponse.length >= 1) {
+            localStorage.setItem("notesArray", JSON.stringify(notesResponse))
+            setNotesArray(notesResponse)
+
+            return notesArray
+        }
     }
+
 
     return (
         <NotesContext.Provider value={{ notesArray, setNotesArray, initNotes }}>
