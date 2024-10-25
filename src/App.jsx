@@ -32,7 +32,7 @@ const MainApp = () => {
             justifyContent: 'start' 
         }}>
             <Navbar className=""/>
-            <div id='route-container' className="container-fluid w-100 d-flex flex-column align-items-start justify-content-start">
+            <div id='roote-container' className="container-fluid mt-1 mb-1 p-0 d-flex flex-column align-items-start justify-content-start">
                 <Routes>
                 <Route path="/" element={user ? <HomePage /> : <Navigate to="/login"/>}/>
                 <Route path="/login" element={user ? <Navigate to="/"/>: <LoginPage/>}/>

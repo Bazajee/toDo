@@ -20,9 +20,9 @@ const Navbar = () => {
      }
 
    return (
-      <div className="container">
+      <div className="container p-0">
          <nav className="navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container-fluid">
+            <div className="container-fluid p-0">
                <a 
                   className="navbar-brand" href="#"
                   onClick={navigateToHome}

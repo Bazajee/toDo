@@ -14,63 +14,64 @@ const home = () => {
 
     const navigate = useNavigate();
     const { user, setUser, login } = useAuth();
-    const { notesArray, setNotesArray, initNotes } = noteData();
+    const { notesArray, setNotesArray, initNotes  } = noteData();
 
     const initData = async () => {
         setLoading(true);
         const notesResponse = await getRequest("/note-manager/get-notes");
         if (user && notesResponse.notes) {
-            const init = await initNotes(notesResponse.notes)
+            const init = await initNotes(notesResponse.notes);
         }
         setLoading(false);
     };
 
     const clickOnNote = (id) => {
-        navigate(`/note/${id}`)
+        navigate(`/note/${id}`);
     };
 
     const clickOnNewNote = () => {
-        navigate("/note")
+        navigate("/note");
     };
 
     useEffect(() => {
         initData();
-    }, [user]);
+    }, [user])
+
+    useEffect(() => {
+
+    }, [loading])
 
     return (
         <>
-            <div id="home-container" className="container m-1">
-                <div className="">
+            <div id="home-container " className="container  p-0 text-truncate border-success">
+                <div className="bg-yellow rounded mt-1 mb-1 ">
                     <button
-                        type="button"
-                        className="btn w-100 btn-light btn-lg btn-block d-flex justify-content-center align-items-center "
+                        type="button bg-yellow "
+                        className="btn w-100 btn-lg btn-block d-flex justify-content-center align-items-center "
                         onClick={clickOnNewNote}
                     >
                         <img
                             src="src/assets/pen.svg"
                             className=""
-                            style={{ width: "20px", height: "20px" }}
+                            style={{ width: "25px", height: "25px" }}
                             alt="New"
                         />
                     </button>
-                    {/* <button type="button" className="btn btn-light btn-lg btn-block d-flex justify-content-center align-items-center">
-                        <img src="src/assets/add.svg" style={{ width: '20px', height: '20px' }} ></img>
-                    </button> */}
+
                 </div>
-                <div className="container-fluid">
+                <div className="container-fluid text-truncate p-0">
                     {notesArray
                         .slice()
                         .reverse()
                         .map((note) => (
                             <div
                                 key={note.id}
-                                className="btn d-flex justify-content-start align-items-start "
-                                onClick={() => {
-                                    clickOnNote(note.id);
-                                }}
+                                className="btn p-0 d-flex justify-content-start align-items-start text-truncate "
                             >
-                                <HomeNote note={note} />
+                                <HomeNote note={note} loading={loading} setLoading={setLoading} />
                             </div>
+
+							
                         ))}
                 </div>
             </div>
