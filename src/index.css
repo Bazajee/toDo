@@ -26,12 +26,18 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
+  height: 100%;
+  
+
 }
 
 h1 {
-  font-size: 3.2em;
+  /* font-size: 3.2em;
+  line-height: 1.1; */
+  font-size: 8vw; /* Scales with the viewport width */
   line-height: 1.1;
 }
 
