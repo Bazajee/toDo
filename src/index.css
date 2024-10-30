@@ -72,3 +72,32 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.bg-yellow {
+  background-color:#FCDC94;
+}
+
+.bg-green{
+  background-color: #C8CFA0;
+}
+
+.bg-blue{
+  background-color: #78ABA8;
+}
+
+.bg-orange{
+  background-color: #EF9C66;
+}
+
+.bg-grey{
+  background-color: #f1f1f1;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Apply the animation to the SVG */
+.rotate {
+  animation: spin 1s linear infinite
+}

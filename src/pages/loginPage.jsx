@@ -58,13 +58,13 @@ const loginPage = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary w-100">
+                    <button type="submit" className="btn bg-yellow w-100">
                         Login
                     </button>
                 </form>
                 <div className="text-center mt-3">
                     <div className="text-center mt-3">
-                        <a href="#" className="text-decoration-none">
+                        <a href="#" className="text-decoration-none link-secondary" >
                             Forgot your password?
                         </a>
                     </div>
@@ -72,7 +72,7 @@ const loginPage = () => {
                         <a
                             href="#"
                             onClick={navigateToSIgnUp}
-                            className="text-decoration-none"
+                            className="text-decoration-none link-secondary"
                         >
                             New user?{" "}
                         </a>
