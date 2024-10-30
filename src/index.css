@@ -99,5 +99,5 @@ button:focus-visible {
 
 /* Apply the animation to the SVG */
 .rotate {
-  animation: spin 1s linear infinite;
+  animation: spin 1s linear infinite
 }
