@@ -27,9 +27,15 @@ const NotePage = () => {
 
     const createNewNote = async () => {
         if (newNoteTitle) {
-            const response = await postRequest("/note-manager/new-note", {
-                title: newNoteTitle,
-            });
+            const response = await postRequest("/note-manager/new-note", 
+                {
+                    title: newNoteTitle,
+                    
+                    noteContent : {
+                        // add note content. TextBlock or listBlock or empty 
+                    }
+                }
+            );
             setNotesArray([...notesArray, response.note]);
             navigate(`/note/${response.note.id}`);
             setNewNoteTitle("");
@@ -63,7 +69,8 @@ const NotePage = () => {
                         placeholder="New Note"
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                                createNewNote();
+                                createNewNote()
+                                // add content creation logic and displaying.  -> create textblock and listBlock component 
                             }
                         }}
                     ></input>
