@@ -3,10 +3,17 @@ import { getRequest } from "../apiService/requestToBack";
 
 const NotesContext = createContext();
 
+// This useContext provide note data. We use local storage for save the data and useState for return it.
+// /!\ Local storage only needs to be updated here /!\
 export const NotesProvider = ({ children }) => {
     const [notesArray, setNotesArray] = useState(
         () => JSON.parse(localStorage.getItem("notesArray")) || []
     )
+
+    const [notesContentArray, setNotesContentArray] = useState(
+        () => JSON.parse(localStorage.getItem("notesContent")) || []
+    )
+
 
     const getNoteIndex = (noteId) => {
         const noteIndex = notesArray.findIndex(
@@ -31,8 +38,23 @@ export const NotesProvider = ({ children }) => {
         }
     }
 
+    const addNoteContent = (noteId, content) => {
+        content["noteId"] = noteId
+        if (notesContentArray.length == 0 ) {
+            localStorage.setItem('noteContent', JSON.stringify([content]))
+            setNotesContentArray([content])
+
+        }else if (!notesContentArray.find( note => note.noteId === noteId)) {
+            const updateContent = [...notesContentArray, content]
+            setNotesContentArray(updateContent)
+            localStorage.setItem('noteContent', JSON.stringify(updateContent))
+        }   
+    }
+
+    
+
     return (
-        <NotesContext.Provider value={{ notesArray, setNotesArray, initNotes, deleteNote }}>
+        <NotesContext.Provider value={{ notesArray, notesContentArray, setNotesArray, initNotes, deleteNote, addNoteContent }}>
             {children}
         </NotesContext.Provider>
     );

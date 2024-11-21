@@ -1,41 +1,59 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../appState/authData";
-import { noteData } from "../appState/noteData";
-import { postRequest } from "../apiService/requestToBack";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect, useRef } from "react"
+import { useParams } from "react-router-dom"
+import { noteData } from "../appState/noteData"
+import { postRequest, getRequest } from "../apiService/requestToBack"
+import { useNavigate } from "react-router-dom"
 
 const NotePage = () => {
-    const [note, setNote] = useState({});
-    const [newNoteTitle, setNewNoteTitle] = useState("");
-    const [newNote, setNewNote] = useState({});
-    const [loading, setLoading] = useState(true);
-    const refNewNoteTitle = useRef(null);
+    const [note, setNote] = useState({})
+    const [newNoteTitle, setNewNoteTitle] = useState("")
+    // const [newNote, setNewNote] = useState({});
+    const [loading, setLoading] = useState(true)
+    const refNewNoteTitle = useRef(null)
+    const [content, setContent] = useState({})
 
     const { id } = useParams();
-    const { user, setUser, login } = useAuth();
-    const { notesArray, setNotesArray, addNewNote } = noteData();
+    // const { user, setUser, login } = useAuth();
+    const { notesArray, setNotesArray, addNoteContent, notesContentArray } = noteData()
     const navigate = useNavigate();
 
     const getNote = (noteId) => {
         const noteFound = notesArray.find(
             (note) => note.id == parseInt(noteId)
-        );
-        setNote(noteFound);
-        return noteFound;
-    };
+        )
+        setNote(noteFound)
+        return noteFound
+    }
+
+    const fetchNoteContent = async (noteId) => {
+        console.log('start fetch')
+        try {
+            const response = await getRequest(`/note-manager/get-note-content?noteId=${noteId}`)
+            if (response.noteContent) {
+                
+                response.noteContent.isSync = true
+                response.noteContent.latestSync = Date.now()
+                console.log(response.noteContent)
+                addNoteContent(id, response.noteContent)
+                setContent({ ...response.noteContent });
+                // console.log(response.noteContent)
+            }
+        console.log('after fetch',content)
+        } catch (error) {
+            console.log('catch:', error)
+        }
+    }
 
     const createNewNote = async () => {
         if (newNoteTitle) {
             const response = await postRequest("/note-manager/new-note", 
                 {
                     title: newNoteTitle,
-                    
                     noteContent : {
-                        // add note content. TextBlock or listBlock or empty 
+                        textData: 'test of test'
                     }
                 }
-            );
+            )
             setNotesArray([...notesArray, response.note]);
             navigate(`/note/${response.note.id}`);
             setNewNoteTitle("");
@@ -48,16 +66,27 @@ const NotePage = () => {
 
     useEffect(() => {
         if (id) {
-            getNote(id);
-            setLoading(false);
+            getNote(id)
+            fetchNoteContent(id)
+            // setLoading(false)
         } else {
             refNewNoteTitle.current.focus();
         }
-    }, [id, notesArray]);
+    }, [id])
+    useEffect(() => {
+        if (content.textBlock)
+            setLoading(false)
+            console.log('Updated content:', content);
+            // console.log('Updated content:', content.textBlock[0].text);
+
+    }, [content]);
+    
+    // console.log('content->',content)
 
     return (
         <>
             {!id ? (
+                // create
                 <div className="container-fluid">
                     <input
                         className=" h-100 W-100"
@@ -95,7 +124,9 @@ const NotePage = () => {
                                     </h1>
                                     <p>{id}</p>
                                 </div>
-                                <div></div>
+                                <div className="d-flex">
+                                    {/* <p>{ content.textBlock[0].text }</p> */}
+                                </div>
                             </div>
                         )}
                     </div>

@@ -25,12 +25,8 @@ const home = () => {
         setLoading(false);
     };
 
-    const clickOnNote = (id) => {
-        navigate(`/note/${id}`);
-    };
-
     const clickOnNewNote = () => {
-        navigate("/note");
+        navigate("/create-note");
     };
 
     useEffect(() => {
