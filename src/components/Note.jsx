@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useNavigate } from "react-router-dom"
 import { postRequest, getRequest } from "../apiService/requestToBack"
 import { noteData } from "../appState/noteData"
@@ -49,4 +49,4 @@ const HomeNote = ({ note, loading, setLoading }) => {
     )
 }
 
-export default HomeNote;
+export default HomeNote

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"
 import { noteData } from "../appState/noteData"
 import { postRequest, getRequest } from "../apiService/requestToBack"
 import { useNavigate } from "react-router-dom"
+import TextBlock from "../components/TextBlock"
 
 const NotePage = () => {
     const [note, setNote] = useState({})
@@ -41,24 +42,59 @@ const NotePage = () => {
         }
     }
 
-    // sort contentData
-    // display contentData
+    function initContentData (contentObject) {
+        console.log('startInit',contentObject)
+        let blocks=[]
+        if ("textBlock" in contentObject) {
+            const textBlock = contentObject.textBlock.map(element => {
+                return {...element, type: "text"}
+            });
+            blocks =  [...blocks, ...textBlock]
+        }
+        if ("listBlock" in contentObject) {
+            const listBlock = contentObject.listBlock.map(element => {
+                return {...element, type: "list"}
+            });
+            blocks = [...blocks, ...listBlock]
+        }
+        const sortedBlocks = blocks.sort((a, b) => a.placeNumber - b.placeNumber)
+        setContentData(sortedBlocks)
+    }
+
+    // update textBlock
+    function updateTextBlock (newData) {
+        // send call to back
+        // update noteContentArray
+
+    }
+
+
+    // update listBlock 
+
 
     useEffect(() => {
         getNote(id)
-        console.log(!notesContentArray.some(note => note.noteId == id), (notesContentArray.length >= 0 || !notesContentArray.some(note => note.noteId == id)))
-        if (notesContentArray.length <= 0 || !notesContentArray.some(note => note.noteId == id)) {
+        console.log (notesContentArray.length >= 0 && !notesContentArray.some(note => note.noteId == id)), ((notesContentArray.length >= 0 && notesContentArray.some(note => note.noteId == id)))
+        if (notesContentArray.length >= 0 && !notesContentArray.some(note => note.noteId == id)) {
+
             setLoading(false)
             console.log('fetch')
             fetchNoteContent(id)
-            // setContentData
 
-        } else if (notesContentArray.length >= 0 || notesContentArray.some(note => note.noteId == id)) {
+
+        } else if (notesContentArray.length >= 0 && notesContentArray.some(note => note.noteId == id)) {
             setLoading(false)
-            // setContentData
-            console.log(content)
+            setContent(notesContentArray.find(note => note.noteId == id))
         }
+
+        // initContentData(content)
+        // console.log('contentData',contentData)
+        
     }, [id])
+    useEffect( () => {
+        initContentData(content)
+        console.log('contentData',contentData)
+    }, [content])
     
     return (
         <>
@@ -72,25 +108,33 @@ const NotePage = () => {
                                 </span>
                             </div>
                         ) : (
-                            <div>
-                                <div className="d-flex justify-content-start align-items-start">
-                                    <h1
-                                        className="text-truncate"
-                                        style={{ margin: 0 }}
-                                    >
-                                        {note.title || "Note Title"}
-                                    </h1>
-                                    <p>{id}</p>
+                                <div>
+                                    <div className="d-flex justify-content-start align-items-start">
+                                        <h1
+                                            className="text-truncate"
+                                            style={{ margin: 0 }}
+                                        >
+                                            {note.title || "Note Title"}
+                                        </h1>
+                                        <p>{id}</p>
+                                    </div>
+                                    <div className="d-flex">{console.log('inHTML',contentData)}
+                                        {
+                                            contentData.map( block => {
+                                                    if (block.type == 'text') {
+                                                        return <TextBlock key={block.id} textData={block.text}></TextBlock>
+                                                    }
+                                            })
+                                        }
+                                    </div>
                                 </div>
-                                <div className="d-flex">
-                                </div>
-                            </div>
-                        )}
+                            )
+                        }
                     </div>
                 </div>
             }
         </>
-    );
-};
+    )
+}
 
 export default NotePage
