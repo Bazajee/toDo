@@ -60,8 +60,17 @@ const NotePage = () => {
     }
 
 
-    function updateTextBlock (newData) {
-        // send call to back
+    const updateTextBlock = async (blockId, newData) => {
+        console.log(newData, blockId)
+        const update = await postRequest("/note-manager/update-text",
+            {
+                blockId: blockId,
+                noteContent: {
+                    textData: newData
+                }
+            }
+        )
+        console.log('response', update)
         // if response -> update noteContentArray
 
     }
@@ -83,6 +92,7 @@ const NotePage = () => {
 
     useEffect( () => {
         initContentData(content)
+        console.log(content, contentData)
     }, [content])
     
     return (
@@ -111,7 +121,7 @@ const NotePage = () => {
                                         {
                                             contentData.map( block => {
                                                     if (block.type == 'text') {
-                                                        return <TextBlock key={block.id} textData={block.text}></TextBlock>
+                                                        return <TextBlock key={block.id} blockId={block.id} textData={block.text} updateTextBlock={updateTextBlock} ></TextBlock>
                                                     }
                                             })
                                         }

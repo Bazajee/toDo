@@ -8,11 +8,12 @@ const NotePage = () => {
     const [note, setNote] = useState({})
     const [newNoteTitle, setNewNoteTitle] = useState("")
     const refNewNoteTitle = useRef(null)
+    const [textData, setTextData] = useState('')
     const refTextData = useRef(null)
     const [disabledButton, setDisabledButton] = useState(true)
     const [displayButton, setDisplayButton] = useState(true)
     const [displayTextArea, setDisplayTextArea] = useState(false)
-    const [textData, setTextData] = useState('')
+   
 
     const { notesArray, setNotesArray, addNoteContent, notesContentArray } = noteData()
     const navigate = useNavigate()
@@ -26,12 +27,13 @@ const NotePage = () => {
     }
 
     const createNewNote = async () => {
+        
         if (newNoteTitle) {
             const response = await postRequest("/note-manager/new-note", 
                 {
                     title: newNoteTitle,
                     noteContent : {
-                        textData: 'test of test'
+                        textData: textData
                     }
                 }
             )
@@ -128,10 +130,7 @@ const NotePage = () => {
                             overflow: "hidden",
                              height: "33vh" 
                         }}
-                    
                     />
-
-
                 </div>
             </div>
         </>
