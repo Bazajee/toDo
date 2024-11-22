@@ -17,14 +17,6 @@ const NotePage = () => {
     const { notesArray, setNotesArray, addNoteContent, notesContentArray } = noteData()
     const navigate = useNavigate()
    
-    // const getNote = (noteId) => {
-    //     const noteFound = notesArray.find(
-    //         (note) => note.id == parseInt(noteId)
-    //     )
-    //     setNote(noteFound)
-    //     return noteFound
-    // }
-
     const enabledButton = (title) => {
         if (title.length > 0) {
             setDisabledButton(false)
@@ -34,7 +26,6 @@ const NotePage = () => {
     }
 
     const createNewNote = async () => {
-        console.log(newNoteTitle, textData)
         if (newNoteTitle) {
             const response = await postRequest("/note-manager/new-note", 
                 {
@@ -137,7 +128,6 @@ const NotePage = () => {
                             overflow: "hidden",
                              height: "33vh" 
                         }}
-                        
                     
                     />
 

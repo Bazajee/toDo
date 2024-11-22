@@ -38,7 +38,7 @@ const MainApp = () => {
                   <Route path="/" element={user ? <HomePage/> : <Navigate to="/login"/>}/>
                   <Route path="/login" element={user ? <Navigate to="/"/>: <LoginPage/>}/>
                   <Route path="/signup" element={<SignUpPage/>}/>
-                  <Route path="/note/:id?" element={<NotePage/>}/>
+                  <Route path="/note/:id" element={<NotePage/>}/>
                   <Route path='/create-note' element={<CreateNotePage/>}/>
                 </Routes>
             </div> 
