@@ -1,74 +1,93 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../appState/authData";
-import { noteData } from "../appState/noteData";
-import { postRequest } from "../apiService/requestToBack";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useContext, useEffect, useRef } from "react"
+import { useParams } from "react-router-dom"
+import { noteData } from "../appState/noteData"
+import { postRequest, getRequest } from "../apiService/requestToBack"
+import { useNavigate } from "react-router-dom"
+import TextBlock from "../components/TextBlock"
 
 const NotePage = () => {
-    const [note, setNote] = useState({});
-    const [newNoteTitle, setNewNoteTitle] = useState("");
-    const [newNote, setNewNote] = useState({});
-    const [loading, setLoading] = useState(true);
-    const refNewNoteTitle = useRef(null);
+    const [note, setNote] = useState({})
+    const [newNoteTitle, setNewNoteTitle] = useState("")
+    const [loading, setLoading] = useState(true)
+    // Is object with content data of the relative note 
+    const [content, setContent] = useState({})
+    // Is list of block (list or text) in displaying order
+    const [contentData, setContentData] = useState([])
 
-    const { id } = useParams();
-    const { user, setUser, login } = useAuth();
-    const { notesArray, setNotesArray, addNewNote } = noteData();
-    const navigate = useNavigate();
+    const { id } = useParams()
+    const { notesArray, notesContentArray, setNotesArray, addNoteContent,  } = noteData()
+
+    const navigate = useNavigate()
 
     const getNote = (noteId) => {
         const noteFound = notesArray.find(
             (note) => note.id == parseInt(noteId)
-        );
-        setNote(noteFound);
-        return noteFound;
-    };
+        )
+        setNote(noteFound)
+        return noteFound
+    }
 
-    const createNewNote = async () => {
-        if (newNoteTitle) {
-            const response = await postRequest("/note-manager/new-note", {
-                title: newNoteTitle,
-            });
-            setNotesArray([...notesArray, response.note]);
-            navigate(`/note/${response.note.id}`);
-            setNewNoteTitle("");
+    const fetchNoteContent = async (noteId) => {
+        try {
+            const response = await getRequest(`/note-manager/get-note-content?noteId=${noteId}`)
+            if (response.noteContent) {
+                response.noteContent.isSync = true
+                response.noteContent.latestSync = Date.now()
+                addNoteContent(id, response.noteContent)
+                setContent({ ...response.noteContent })
+            }
+        } catch (error) {
+            console.log('catch:', error)
         }
-    };
+    }
 
-    const handleTextChange = (e) => {
-        setNewNoteTitle(e.target.value);
-    };
+    function initContentData (contentObject) {
+        let blocks=[]
+        if ("textBlock" in contentObject) {
+            const textBlock = contentObject.textBlock.map(element => {
+                return {...element, type: "text"}
+            });
+            blocks =  [...blocks, ...textBlock]
+        }
+        if ("listBlock" in contentObject) {
+            const listBlock = contentObject.listBlock.map(element => {
+                return {...element, type: "list"}
+            });
+            blocks = [...blocks, ...listBlock]
+        }
+        const sortedBlocks = blocks.sort((a, b) => a.placeNumber - b.placeNumber)
+        setContentData(sortedBlocks)
+    }
+
+
+    function updateTextBlock (newData) {
+        // send call to back
+        // if response -> update noteContentArray
+
+    }
+
+
+    // update listBlock 
+
 
     useEffect(() => {
-        if (id) {
-            getNote(id);
-            setLoading(false);
-        } else {
-            refNewNoteTitle.current.focus();
+        getNote(id)
+        if (notesContentArray.length >= 0 && !notesContentArray.some(note => note.noteId == id)) {
+            setLoading(false)
+            fetchNoteContent(id)
+        } else if (notesContentArray.length >= 0 && notesContentArray.some(note => note.noteId == id)) {
+            setLoading(false)
+            setContent(notesContentArray.find(note => note.noteId == id))
         }
-    }, [id, notesArray]);
+    }, [id])
 
+    useEffect( () => {
+        initContentData(content)
+    }, [content])
+    
     return (
         <>
-            {!id ? (
-                <div className="container-fluid">
-                    <input
-                        className=" h-100 W-100"
-                        ref={refNewNoteTitle}
-                        id="newNoteTitle"
-                        onChange={handleTextChange}
-                        onBlur={createNewNote}
-                        value={newNoteTitle}
-                        placeholder="New Note"
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") {
-                                createNewNote();
-                            }
-                        }}
-                    ></input>
-                </div>
-            ) : (
+            {
                 <div id="test" className="container">
                     <div id="test" className="container">
                         {loading ? (
@@ -78,24 +97,33 @@ const NotePage = () => {
                                 </span>
                             </div>
                         ) : (
-                            <div>
-                                <div className="d-flex justify-content-start align-items-start">
-                                    <h1
-                                        className="text-truncate"
-                                        style={{ margin: 0 }}
-                                    >
-                                        {note.title || "Note Title"}
-                                    </h1>
-                                    <p>{id}</p>
+                                <div>
+                                    <div className="d-flex justify-content-start align-items-start">
+                                        <h1
+                                            className="text-truncate"
+                                            style={{ margin: 0 }}
+                                        >
+                                            {note.title || "Note Title"}
+                                        </h1>
+                                        <p>{id}</p>
+                                    </div>
+                                    <div className="d-flex">
+                                        {
+                                            contentData.map( block => {
+                                                    if (block.type == 'text') {
+                                                        return <TextBlock key={block.id} textData={block.text}></TextBlock>
+                                                    }
+                                            })
+                                        }
+                                    </div>
                                 </div>
-                                <div></div>
-                            </div>
-                        )}
+                            )
+                        }
                     </div>
                 </div>
-            )}
+            }
         </>
-    );
-};
+    )
+}
 
-export default NotePage;
+export default NotePage

@@ -10,6 +10,7 @@ import LoginPage from './pages/loginPage'
 import HomePage from './pages/home'
 import SignUpPage from './pages/signUp'
 import NotePage from './pages/notePage'
+import CreateNotePage from './pages/createNotePage'
 
 
 const MainApp = () => {
@@ -32,12 +33,13 @@ const MainApp = () => {
             justifyContent: 'start' 
         }}>
             <Navbar className=""/>
-            <div id='roote-container' className="container-fluid mt-1 mb-1 p-0 d-flex flex-column align-items-start justify-content-start">
+            <div id='root-container' className=" container-fluid mt-1 mb-1 p-0 d-flex flex-column align-items-start justify-content-start">
                 <Routes>
-                <Route path="/" element={user ? <HomePage /> : <Navigate to="/login"/>}/>
-                <Route path="/login" element={user ? <Navigate to="/"/>: <LoginPage/>}/>
-                <Route path="/signup" element={<SignUpPage/>}/>
-                <Route path="/note/:id?" element={<NotePage/>}/>
+                  <Route path="/" element={user ? <HomePage/> : <Navigate to="/login"/>}/>
+                  <Route path="/login" element={user ? <Navigate to="/"/>: <LoginPage/>}/>
+                  <Route path="/signup" element={<SignUpPage/>}/>
+                  <Route path="/note/:id" element={<NotePage/>}/>
+                  <Route path='/create-note' element={<CreateNotePage/>}/>
                 </Routes>
             </div> 
       </div>
