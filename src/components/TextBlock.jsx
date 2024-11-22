@@ -2,7 +2,6 @@ import React from "react"
 
 const TextBlock = ({textData}) =>{
 
-
     return (
         <textarea
             readOnly
@@ -15,7 +14,5 @@ const TextBlock = ({textData}) =>{
     
         >{{ textData }}</textarea>
     )
-
-
 }
 export default TextBlock

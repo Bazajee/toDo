@@ -28,7 +28,6 @@ const NotePage = () => {
     }
 
     const fetchNoteContent = async (noteId) => {
-        console.log('start fetch')
         try {
             const response = await getRequest(`/note-manager/get-note-content?noteId=${noteId}`)
             if (response.noteContent) {
@@ -43,7 +42,6 @@ const NotePage = () => {
     }
 
     function initContentData (contentObject) {
-        console.log('startInit',contentObject)
         let blocks=[]
         if ("textBlock" in contentObject) {
             const textBlock = contentObject.textBlock.map(element => {
@@ -61,10 +59,10 @@ const NotePage = () => {
         setContentData(sortedBlocks)
     }
 
-    // update textBlock
+
     function updateTextBlock (newData) {
         // send call to back
-        // update noteContentArray
+        // if response -> update noteContentArray
 
     }
 
@@ -74,26 +72,17 @@ const NotePage = () => {
 
     useEffect(() => {
         getNote(id)
-        console.log (notesContentArray.length >= 0 && !notesContentArray.some(note => note.noteId == id)), ((notesContentArray.length >= 0 && notesContentArray.some(note => note.noteId == id)))
         if (notesContentArray.length >= 0 && !notesContentArray.some(note => note.noteId == id)) {
-
             setLoading(false)
-            console.log('fetch')
             fetchNoteContent(id)
-
-
         } else if (notesContentArray.length >= 0 && notesContentArray.some(note => note.noteId == id)) {
             setLoading(false)
             setContent(notesContentArray.find(note => note.noteId == id))
         }
-
-        // initContentData(content)
-        // console.log('contentData',contentData)
-        
     }, [id])
+
     useEffect( () => {
         initContentData(content)
-        console.log('contentData',contentData)
     }, [content])
     
     return (
@@ -118,7 +107,7 @@ const NotePage = () => {
                                         </h1>
                                         <p>{id}</p>
                                     </div>
-                                    <div className="d-flex">{console.log('inHTML',contentData)}
+                                    <div className="d-flex">
                                         {
                                             contentData.map( block => {
                                                     if (block.type == 'text') {
