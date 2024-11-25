@@ -21,7 +21,7 @@ export const NotesProvider = ({ children }) => {
             (note) => note.id == parseInt(noteId)
         )
         return noteIndex;
-    };
+    }
 
     const initNotes =  (notesResponse) => {
         if (Array.isArray(notesResponse) && notesResponse.length >= 1) {

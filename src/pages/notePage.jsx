@@ -4,6 +4,8 @@ import { noteData } from "../appState/noteData"
 import { postRequest, getRequest } from "../apiService/requestToBack"
 import { useNavigate } from "react-router-dom"
 import TextBlock from "../components/TextBlock"
+import CreateTextBlock from "../components/CreateTextBlock"
+import { useSpring, animated } from 'react-spring'
 
 const NotePage = () => {
     const [note, setNote] = useState({})
@@ -13,11 +15,22 @@ const NotePage = () => {
     const [content, setContent] = useState({})
     // Is list of block (list or text) in displaying order
     const [contentData, setContentData] = useState([])
+    const [displayAddButton, setDisplayAddButton] = useState(false)
+    const lastClickTimeAdd = useRef(Date.now())
+    const props = useSpring({ opacity : displayAddButton ? 1 : 0 });
 
     const { id } = useParams()
     const { notesArray, notesContentArray, setNotesArray, addNoteContent, updateTextContent } = noteData()
 
     const navigate = useNavigate()
+
+    const toggleAddButton = () => {
+        const currentTime = Date.now();
+        if (currentTime - lastClickTimeAdd.current > 150) {
+          setDisplayAddButton(prevState => !prevState)
+          lastClickTimeAdd.current = currentTime
+        }
+    }
 
     const getNote = (noteId) => {
         const noteFound = notesArray.find(
@@ -59,7 +72,6 @@ const NotePage = () => {
         setContentData(sortedBlocks)
     }
 
-
     // Run in textBlock component 
     const updateTextBlock = async (blockId, newData) => {
         
@@ -75,8 +87,10 @@ const NotePage = () => {
         // initContentdata here because useEffect on content won't run (reactivity without setFunction)
         initContentData(content)
     }
+    
+    const createTextBlock = (noteId) => {
 
-
+    }
 
     useEffect(() => {
         
@@ -96,12 +110,16 @@ const NotePage = () => {
         initContentData(content)
         
     }, [content])
+
+    useEffect(() => {
+
+    })
     
     return (
         <>
             {
-                <div id="test" className="container">
-                    <div id="test" className="container">
+                <div id="test" className="container p-0">
+                    <div  className=" ">
                         {loading ? (
                             <div className="spinner-border" role="status">
                                 <span className="visually-hidden">
@@ -110,14 +128,71 @@ const NotePage = () => {
                             </div>
                         ) : (
                                 <div>
-                                    <div className="d-flex justify-content-start align-items-start">
-                                        <h1
-                                            className="text-truncate"
-                                            style={{ margin: 0 }}
-                                        >
-                                            {note.title || "Note Title"}
-                                        </h1>
-                                        <p>{id}</p>
+                                    <div className="container m-0 p-0 d-flex justify-content-start align-items-start">
+                                        <div className="d-flex col" >
+                                            <div className="col-9 d-flex">
+                                                <h1
+                                                    className="text-truncate justify-content-start"
+                                                    style={{ margin: 5 }}
+                                                >
+                                                    {note.title || "Note Title"}
+                                                </h1>
+                                            </div>
+                                            <div className=" col-3 d-flex justify-content-end">                                            
+                                                <button 
+                                                    className="btn btn-block d-flex"
+                                                    onClick={toggleAddButton}
+                                                >
+                                                    <img
+                                                        src={
+                                                            displayAddButton ? "/src/assets/reduce.svg" : "/src/assets/add.svg"
+                                                        }
+                                                        style={{ width: "30px", height: "30px" }}
+                                                        alt="openAdd"                                            
+                                                    />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        style={{
+                                            display: displayAddButton ? 'block' : 'none',
+                                        }}
+                                    >
+                                        <animated.div style={props}>
+                                            <div                             
+                                                className="container p-0 d-flex"
+                                            >
+                                                <div className="col-6 d-flex justify-content-center ">
+                                                    <button 
+                                                        className="btn w-100 btn-block d-flex justify-content-center align-items-center bg-yellow m-2"
+                                                    >
+                                                        <img
+                                                            src="/src/assets/text.svg"
+                                                            style={{ width: "25px", height: "25px" }}
+                                                            alt="openAdd"                                            
+                                                        />
+                                                    </button>
+                                                </div>
+                                                <div 
+                                                    disabled = {true}
+                                                    className="col-6 d-flex justify-content-center">
+                                                    <button 
+                                                        className="btn w-100 btn-block d-flex justify-content-center align-items-center bg-yellow m-2"
+                                                    >
+                                                        <img
+                                                            src="/src/assets/list-check.svg"
+                                                            style={{ width: "30px", height: "30px" }}
+                                                            alt="openAdd"                                            
+                                                        />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </animated.div >
+                                    </div>
+                                    <div>
+                                        <CreateTextBlock
+                                        />
                                     </div>
                                     <div className="d-flex">
                                         {
