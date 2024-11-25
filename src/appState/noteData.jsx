@@ -39,6 +39,7 @@ export const NotesProvider = ({ children }) => {
         }
     }
 
+    // Add note content to noteContentDataArray. Content must be contentObject init with fetchNoteContent() in Homepage.
     const addNoteContent = (noteId, content) => {
         content["noteId"] = noteId
         if (notesContentArray.length == 0 ) {
@@ -52,9 +53,25 @@ export const NotesProvider = ({ children }) => {
         }   
     }
 
+    // Update content of a note in noteContentArray
+    const updateTextContent = (updatedTextBlock) => {
+        const noteContentIndex = notesContentArray.findIndex(content => content.noteId == updatedTextBlock.noteId)
+        const textBlockIndex = notesContentArray[noteContentIndex].textBlock.findIndex( textBlock => textBlock.id == updatedTextBlock.id )
+
+        const updatedNotesArrayContent = notesContentArray.map(noteContent => {
+            if (noteContent.noteId == updatedTextBlock.noteId && noteContent.textBlock[textBlockIndex].id == updatedTextBlock.id) {
+                noteContent.textBlock[textBlockIndex] = updatedTextBlock
+            }
+            return noteContent
+
+        })
+        setNotesContentArray(updatedNotesArrayContent)
+        localStorage.setItem('notesContent', JSON.stringify(updatedNotesArrayContent))
+        return updatedTextBlock
+    }
 
     return (
-        <NotesContext.Provider value={{ notesArray, notesContentArray, setNotesArray, initNotes, deleteNote, addNoteContent }}>
+        <NotesContext.Provider value={{ notesArray, notesContentArray, setNotesArray, initNotes, deleteNote, addNoteContent, updateTextContent }}>
             {children}
         </NotesContext.Provider>
     );

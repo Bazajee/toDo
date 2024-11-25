@@ -15,7 +15,7 @@ const NotePage = () => {
     const [contentData, setContentData] = useState([])
 
     const { id } = useParams()
-    const { notesArray, notesContentArray, setNotesArray, addNoteContent,  } = noteData()
+    const { notesArray, notesContentArray, setNotesArray, addNoteContent, updateTextContent } = noteData()
 
     const navigate = useNavigate()
 
@@ -46,7 +46,7 @@ const NotePage = () => {
         if ("textBlock" in contentObject) {
             const textBlock = contentObject.textBlock.map(element => {
                 return {...element, type: "text"}
-            });
+            })
             blocks =  [...blocks, ...textBlock]
         }
         if ("listBlock" in contentObject) {
@@ -60,8 +60,9 @@ const NotePage = () => {
     }
 
 
+    // Run in textBlock component 
     const updateTextBlock = async (blockId, newData) => {
-        console.log(newData, blockId)
+        
         const update = await postRequest("/note-manager/update-text",
             {
                 blockId: blockId,
@@ -70,16 +71,15 @@ const NotePage = () => {
                 }
             }
         )
-        console.log('response', update)
-        // if response -> update noteContentArray
-
+        updateTextContent(update)
+        // initContentdata here because useEffect on content won't run (reactivity without setFunction)
+        initContentData(content)
     }
 
 
-    // update listBlock 
-
 
     useEffect(() => {
+        
         getNote(id)
         if (notesContentArray.length >= 0 && !notesContentArray.some(note => note.noteId == id)) {
             setLoading(false)
@@ -87,12 +87,14 @@ const NotePage = () => {
         } else if (notesContentArray.length >= 0 && notesContentArray.some(note => note.noteId == id)) {
             setLoading(false)
             setContent(notesContentArray.find(note => note.noteId == id))
+            
         }
     }, [id])
 
     useEffect( () => {
+        // Why is not trigger when updateTextBlockRun ? 
         initContentData(content)
-        console.log(content, contentData)
+        
     }, [content])
     
     return (
@@ -121,7 +123,13 @@ const NotePage = () => {
                                         {
                                             contentData.map( block => {
                                                     if (block.type == 'text') {
-                                                        return <TextBlock key={block.id} blockId={block.id} textData={block.text} updateTextBlock={updateTextBlock} ></TextBlock>
+                                                        return <TextBlock 
+                                                            key={block.id} 
+                                                            blockId={block.id} 
+                                                            textData={block.text} 
+                                                            updateTextBlock={updateTextBlock} 
+
+                                                        />
                                                     }
                                             })
                                         }
