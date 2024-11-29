@@ -33,6 +33,7 @@ const TextBlock = ({textData: intialData, blockId: blockId, updateTextBlock}) =>
     return (
         <>
         { focusOn ? (
+            <div className="justify-content-start">
                 <textarea
                     ref={refTextData}
                     className="w-100 p-2"
@@ -43,17 +44,33 @@ const TextBlock = ({textData: intialData, blockId: blockId, updateTextBlock}) =>
                         height: "33vh",
                     }}
                 />
+            </div>
             ) : (
-                <p
-                    className="w-100 p-2 bg-grey rounded justify-content-start align-content-start "
-                    onClick={focusOnTrue}
-                    // value={textData}
-                    style={{
-                        whiteSpace: "pre-line",
-                    }}
-                >
-                    { intialData }
-                </p>
+                <div className="d-flex container-fluid p-0 w-100 m-2 p-2 bg-grey rounded ">
+                    <div className="w-100 d-flex">
+                        <p
+                            className="text-start"
+                            onClick={focusOnTrue}
+                            style={{
+                                whiteSpace: "pre-line",
+                            }}
+                        >
+                            { intialData }
+                        </p>
+                    </div>
+                    <div className=" d-flex justify-content-end align-items-start">
+                        <button 
+                            type="deleteButton" 
+                            className="btn  d-flex"
+                        >
+                            <img
+                                className=""
+                                src="/src/assets/delete.svg"
+                                style={{ width: "30px", height: "30px" }}
+                            ></img>
+                        </button>
+                    </div>
+                </div>
             )
         }
        </>

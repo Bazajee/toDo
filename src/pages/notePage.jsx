@@ -16,11 +16,12 @@ const NotePage = () => {
     // Is list of block (list or text) in displaying order
     const [contentData, setContentData] = useState([])
     const [displayAddButton, setDisplayAddButton] = useState(false)
+    const [displayAddText, setDisplayAddText] = useState(false)
     const lastClickTimeAdd = useRef(Date.now())
-    const props = useSpring({ opacity : displayAddButton ? 1 : 0 });
+    const animationProps = useSpring({ opacity : displayAddButton ? 1 : 0 })
 
     const { id } = useParams()
-    const { notesArray, notesContentArray, setNotesArray, addNoteContent, updateTextContent } = noteData()
+    const { notesArray, notesContentArray, setNotesArray, addNoteContent, updateTextContent, addTextContent } = noteData()
 
     const navigate = useNavigate()
 
@@ -29,6 +30,15 @@ const NotePage = () => {
         if (currentTime - lastClickTimeAdd.current > 150) {
           setDisplayAddButton(prevState => !prevState)
           lastClickTimeAdd.current = currentTime
+        }
+    }
+
+    const toggleAddText = () => {
+        const currentTime = Date.now();
+        if (currentTime - lastClickTimeAdd.current > 150) {
+            setDisplayAddText(!displayAddText)
+            // close AddList
+            lastClickTimeAdd.current = currentTime
         }
     }
 
@@ -72,9 +82,8 @@ const NotePage = () => {
         setContentData(sortedBlocks)
     }
 
-    // Run in textBlock component 
+    // Run in textBlock component || put this code in textBlock component 
     const updateTextBlock = async (blockId, newData) => {
-        
         const update = await postRequest("/note-manager/update-text",
             {
                 blockId: blockId,
@@ -88,7 +97,18 @@ const NotePage = () => {
         initContentData(content)
     }
     
-    const createTextBlock = (noteId) => {
+    const createTextBlock = async (noteId, data) => {
+        const response = await postRequest("/note-manager/create-content", 
+            {
+                "noteId":noteId,
+                "place":contentData.length,
+                "noteContent": {
+                    "textData": data
+                }
+            }
+        )
+        addTextContent(response)
+        initContentData(content)
 
     }
 
@@ -110,10 +130,6 @@ const NotePage = () => {
         initContentData(content)
         
     }, [content])
-
-    useEffect(() => {
-
-    })
     
     return (
         <>
@@ -137,6 +153,7 @@ const NotePage = () => {
                                                 >
                                                     {note.title || "Note Title"}
                                                 </h1>
+                                                <p>{note.id}</p>
                                             </div>
                                             <div className=" col-3 d-flex justify-content-end">                                            
                                                 <button 
@@ -159,13 +176,14 @@ const NotePage = () => {
                                             display: displayAddButton ? 'block' : 'none',
                                         }}
                                     >
-                                        <animated.div style={props}>
+                                        <animated.div style={animationProps}>
                                             <div                             
                                                 className="container p-0 d-flex"
                                             >
                                                 <div className="col-6 d-flex justify-content-center ">
                                                     <button 
                                                         className="btn w-100 btn-block d-flex justify-content-center align-items-center bg-yellow m-2"
+                                                        onClick={toggleAddText}
                                                     >
                                                         <img
                                                             src="/src/assets/text.svg"
@@ -175,10 +193,11 @@ const NotePage = () => {
                                                     </button>
                                                 </div>
                                                 <div 
-                                                    disabled = {true}
+                                                    
                                                     className="col-6 d-flex justify-content-center">
                                                     <button 
                                                         className="btn w-100 btn-block d-flex justify-content-center align-items-center bg-yellow m-2"
+                                                        disabled = {true}
                                                     >
                                                         <img
                                                             src="/src/assets/list-check.svg"
@@ -192,11 +211,18 @@ const NotePage = () => {
                                     </div>
                                     <div>
                                         <CreateTextBlock
+                                            noteId={id}
+                                            createTextBlock={createTextBlock}
+                                            isDisplay={displayAddText}
+                                            setDisplayAddText={setDisplayAddText}
                                         />
                                     </div>
-                                    <div className="d-flex">
+                                    <div className="">
                                         {
-                                            contentData.map( block => {
+                                            contentData
+                                            .slice()
+                                            .reverse()
+                                            .map( block => {
                                                     if (block.type == 'text') {
                                                         return <TextBlock 
                                                             key={block.id} 
