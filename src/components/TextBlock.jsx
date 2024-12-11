@@ -1,10 +1,20 @@
 import React, { useState, useContext, useEffect, useRef }  from "react"
+import { postRequest, getRequest } from "../apiService/requestToBack"
+import { noteData } from "../appState/noteData"
 
-const TextBlock = ({textData: intialData, blockId: blockId, updateTextBlock}) =>{
+const TextBlock = ({
+    textData: intialData, 
+    blockId: blockId,
+    initContentData, 
+    content}) =>{
 
     const [textData, setTextData] = useState(intialData)
     const refTextData = useRef(null)
     const [focusOn, setFocusOn] = useState(false)
+    const { 
+        removeTextBlock, 
+        updateTextContent 
+    } = noteData()
 
     const sendUpdatechange = () => {
         if (intialData != textData) {
@@ -21,6 +31,29 @@ const TextBlock = ({textData: intialData, blockId: blockId, updateTextBlock}) =>
     const focusOnTrue = () => {
         setFocusOn(true)
     }
+    
+    const updateTextBlock = async (blockId, newData) => {
+        const update = await postRequest("/note-manager/update-text",
+            {
+                blockId: blockId,
+                noteContent: {
+                    textData: newData
+                }
+            }
+        )
+        updateTextContent(update)
+        initContentData(content)
+    }
+
+    //
+    const deleteTextBlock= async (textBlockId) => {
+        const response = await getRequest(`/note-manager/delete-text-block?noteId=${textBlockId}`)
+        if (response.id == textBlockId){
+            removeTextBlock(response)
+            initContentData(content)
+        }
+    }
+
     useEffect(() => {
         if (focusOn && refTextData.current) {
             const element = refTextData.current
@@ -62,6 +95,7 @@ const TextBlock = ({textData: intialData, blockId: blockId, updateTextBlock}) =>
                         <button 
                             type="deleteButton" 
                             className="btn  d-flex"
+                            onClick={()=>{deleteTextBlock(blockId)}}
                         >
                             <img
                                 className=""

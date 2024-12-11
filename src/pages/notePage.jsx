@@ -21,7 +21,13 @@ const NotePage = () => {
     const animationProps = useSpring({ opacity : displayAddButton ? 1 : 0 })
 
     const { id } = useParams()
-    const { notesArray, notesContentArray, setNotesArray, addNoteContent, updateTextContent, addTextContent } = noteData()
+    const { notesArray, 
+        notesContentArray,
+        setNotesArray, 
+        addNoteContent, 
+        updateTextContent, 
+        addTextContent 
+    } = noteData()
 
     const navigate = useNavigate()
 
@@ -81,21 +87,6 @@ const NotePage = () => {
         const sortedBlocks = blocks.sort((a, b) => a.placeNumber - b.placeNumber)
         setContentData(sortedBlocks)
     }
-
-    // Run in textBlock component || put this code in textBlock component 
-    const updateTextBlock = async (blockId, newData) => {
-        const update = await postRequest("/note-manager/update-text",
-            {
-                blockId: blockId,
-                noteContent: {
-                    textData: newData
-                }
-            }
-        )
-        updateTextContent(update)
-        // initContentdata here because useEffect on content won't run (reactivity without setFunction)
-        initContentData(content)
-    }
     
     const createTextBlock = async (noteId, data) => {
         const response = await postRequest("/note-manager/create-content", 
@@ -126,7 +117,6 @@ const NotePage = () => {
     }, [id])
 
     useEffect( () => {
-        // Why is not trigger when updateTextBlockRun ? 
         initContentData(content)
         
     }, [content])
@@ -223,13 +213,13 @@ const NotePage = () => {
                                             .slice()
                                             .reverse()
                                             .map( block => {
-                                                    if (block.type == 'text') {
+                                                    if (block.type == 'text' && block.isDeleted == false) {
                                                         return <TextBlock 
                                                             key={block.id} 
                                                             blockId={block.id} 
-                                                            textData={block.text} 
-                                                            updateTextBlock={updateTextBlock} 
-
+                                                            textData={block.text}
+                                                            initContentData={initContentData}
+                                                            content={content}
                                                         />
                                                     }
                                             })

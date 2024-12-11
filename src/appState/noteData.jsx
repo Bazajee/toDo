@@ -6,11 +6,9 @@ const NotesContext = createContext();
 // This useContext provide note data. We use local storage for save the data and useState for return it.
 // /!\ Local storage only needs to be updated here /!\
 export const NotesProvider = ({ children }) => {
-
     const [notesArray, setNotesArray] = useState(
         () => JSON.parse(localStorage.getItem("notesArray")) || []
     )
-
     const [notesContentArray, setNotesContentArray] = useState(
         () => JSON.parse(localStorage.getItem("notesContent")) || []
     )
@@ -20,7 +18,7 @@ export const NotesProvider = ({ children }) => {
         const noteIndex = notesArray.findIndex(
             (note) => note.id == parseInt(noteId)
         )
-        return noteIndex;
+        return noteIndex
     }
 
     const initNotes =  (notesResponse) => {
@@ -34,9 +32,25 @@ export const NotesProvider = ({ children }) => {
     const deleteNote = (noteId) => {
         const noteIndex = getNoteIndex(noteId)
         if (noteIndex >= 0 && noteIndex < notesArray.length){
-            setNotesArray(notesArray.filter((_, i) => i !== noteIndex))
-            
+            const updatedNotesArray = notesArray.filter((_, i) => i !== noteIndex)
+            setNotesArray(updatedNotesArray)
+            localStorage.setItem("notesArray", JSON.stringify(updatedNotesArray))
         }
+    }
+
+    const removeTextBlock = (textBlockObject)=> {
+        const noteContentIndex = notesContentArray.findIndex(
+            note => note.noteId == textBlockObject.noteId
+        )
+        const textBlockIndex = notesContentArray[noteContentIndex].textBlock.findIndex( 
+            textBlock => textBlock.id == textBlockObject.id 
+        )
+        
+        const updatedNotesContentArray = notesContentArray
+        updatedNotesContentArray[noteContentIndex].textBlock[textBlockIndex].isDeleted = textBlockObject.isDeleted
+        setNotesContentArray(updatedNotesContentArray)
+        localStorage.setItem('notesContent', JSON.stringify(updatedNotesContentArray))
+
     }
 
     // Add note content to noteContentDataArray. Content arg must be contentObject init with fetchNoteContent() in Homepage.
@@ -65,9 +79,12 @@ export const NotesProvider = ({ children }) => {
 
     // Update text content of a note in noteContentArray
     const updateTextContent = (updatedTextBlock) => {
-        const noteContentIndex = notesContentArray.findIndex(content => content.noteId == updatedTextBlock.noteId)
-        const textBlockIndex = notesContentArray[noteContentIndex].textBlock.findIndex( textBlock => textBlock.id == updatedTextBlock.id )
-
+        const noteContentIndex = notesContentArray.findIndex(
+            content => content.noteId == updatedTextBlock.noteId
+        )
+        const textBlockIndex = notesContentArray[noteContentIndex].textBlock.findIndex( 
+            textBlock => textBlock.id == updatedTextBlock.id 
+        )
         const updatedNotesArrayContent = notesContentArray.map(noteContent => {
             if (noteContent.noteId == updatedTextBlock.noteId && noteContent.textBlock[textBlockIndex].id == updatedTextBlock.id) {
                 noteContent.textBlock[textBlockIndex] = updatedTextBlock
@@ -89,7 +106,8 @@ export const NotesProvider = ({ children }) => {
             deleteNote, 
             addNoteContent, 
             updateTextContent, 
-            addTextContent 
+            addTextContent,
+            removeTextBlock
         }}>
             {children}
         </NotesContext.Provider>

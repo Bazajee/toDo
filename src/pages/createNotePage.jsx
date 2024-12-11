@@ -39,7 +39,7 @@ const NotePage = () => {
                     }
                 }
             )
-            setNotesArray([...notesArray, response.note]);
+            setNotesArray([...notesArray, response.note])
             navigate(`/note/${response.note.id}`);
             setNewNoteTitle("")
         }
