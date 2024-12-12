@@ -45,7 +45,7 @@ const TextBlock = ({
         initContentData(content)
     }
 
-    //
+
     const deleteTextBlock= async (textBlockId) => {
         const response = await getRequest(`/note-manager/delete-text-block?noteId=${textBlockId}`)
         if (response.id == textBlockId){

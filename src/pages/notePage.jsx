@@ -43,7 +43,6 @@ const NotePage = () => {
         const currentTime = Date.now();
         if (currentTime - lastClickTimeAdd.current > 150) {
             setDisplayAddText(!displayAddText)
-            // close AddList
             lastClickTimeAdd.current = currentTime
         }
     }
@@ -138,12 +137,12 @@ const NotePage = () => {
                                         <div className="d-flex col" >
                                             <div className="col-9 d-flex">
                                                 <h1
-                                                    className="text-truncate justify-content-start"
+                                                    className="text-truncate justify-content-start "
+                                                    
                                                     style={{ margin: 5 }}
                                                 >
                                                     {note.title || "Note Title"}
                                                 </h1>
-                                                <p>{note.id}</p>
                                             </div>
                                             <div className=" col-3 d-flex justify-content-end">                                            
                                                 <button 

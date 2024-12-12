@@ -30,7 +30,6 @@ const HomeNote = ({ note, loading, setLoading }) => {
                 }}
             >
                 <h3 className="text-truncate ms-1 me-1 d-flex justify-content-start ">{note.title}</h3>
-                <p className="text-truncate ms-1 me-1 d-flex justify-content-start ">{note.creationDate} </p>
             </div>
             <div className=" d-flex justify-content-end align-items-start">
                 <button 

@@ -38,8 +38,8 @@ const MainApp = () => {
                   <Route path="/" element={user ? <HomePage/> : <Navigate to="/login"/>}/>
                   <Route path="/login" element={user ? <Navigate to="/"/>: <LoginPage/>}/>
                   <Route path="/signup" element={<SignUpPage/>}/>
-                  <Route path="/note/:id" element={<NotePage/>}/>
-                  <Route path='/create-note' element={<CreateNotePage/>}/>
+                  <Route path="/note/:id" element={user ? <NotePage/> : <Navigate to="/"/>} />
+                  <Route path='/create-note' element={user ? <CreateNotePage/>: <Navigate to="/"/>}/>
                 </Routes>
             </div> 
       </div>

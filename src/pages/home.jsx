@@ -62,7 +62,7 @@ const home = () => {
                         .map((note) => (
                             <div
                                 key={note.id}
-                                className="btn p-0 d-flex justify-content-start align-items-start text-truncate "
+                                className="btn p-0 d-flex justify-content-start align-items-start text-truncate text-secondary "
                             >
                                 <HomeNote note={note} loading={loading} setLoading={setLoading} />
                             </div>

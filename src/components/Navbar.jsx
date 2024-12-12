@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
 
-   const { logout } = useAuth()
+   const { logout, user } = useAuth()
    const navigate = useNavigate()
+  
+
 
    function navigateToHome () {
     navigate('/')
@@ -24,10 +26,10 @@ const Navbar = () => {
          <nav className="navbar navbar-expand-lg bg-body-tertiary">
             <div className="container-fluid p-0">
                <a 
-                  className="navbar-brand" href="#"
+                  className="navbar-brand text-secondary" href="#"
                   onClick={navigateToHome}
                >
-                  List
+               { user ? `${user.username}'s note` : null}
                </a>
                <button
                   className="navbar-toggler"
@@ -49,16 +51,14 @@ const Navbar = () => {
                      >
                         Home
                      </button>
-                     <a className="nav-link disabled" href="#">
-                        Features
-                     </a>
-                     <a className="nav-link disabled " href="#">
-                        Pricing
-                     </a>
+
                      <button
                         className="nav-link "
                         onClick={clickLogout}
                         aria-disabled="true"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavAltMarkup"
+
                      >
                         logout
                      </button>
