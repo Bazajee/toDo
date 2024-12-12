@@ -101,3 +101,21 @@ button:focus-visible {
 .rotate {
   animation: spin 1s linear infinite
 }
+
+
+/* ===========    TRANSITION    =========== */
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 300ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}

@@ -33,8 +33,8 @@ const SignUpPage = () => {
 
     return (
         <div className="container d-flex justify-content-center align-items-center vh-100">
-        <div className="card shadow-lg p- w-100" style={{ width: '400px' }}>
-            <h2 className="text-center mb-4">Welcome to Todo app !</h2>
+        <div className="card shadow-lg p- w-100" style={{ maxWidth: '340px' }}>
+            <h2 className="text-center mb-4">Welcome on Todo app !</h2>
             <form onSubmit={handleSubmit}>
             <div className="mb-3">
                 <label htmlFor="email" className="form-label">Email address *</label>

@@ -5,14 +5,18 @@ import { postRequest, getRequest } from "../apiService/requestToBack"
 import { useNavigate } from "react-router-dom"
 
 const NotePage = () => {
-    const [note, setNote] = useState({})
+    
     const [newNoteTitle, setNewNoteTitle] = useState("")
     const refNewNoteTitle = useRef(null)
+
+    const [textData, setTextData] = useState('')
     const refTextData = useRef(null)
+
+    const [note, setNote] = useState({})
     const [disabledButton, setDisabledButton] = useState(true)
     const [displayButton, setDisplayButton] = useState(true)
     const [displayTextArea, setDisplayTextArea] = useState(false)
-    const [textData, setTextData] = useState('')
+   
 
     const { notesArray, setNotesArray, addNoteContent, notesContentArray } = noteData()
     const navigate = useNavigate()
@@ -31,11 +35,11 @@ const NotePage = () => {
                 {
                     title: newNoteTitle,
                     noteContent : {
-                        textData: 'test of test'
+                        textData: textData
                     }
                 }
             )
-            setNotesArray([...notesArray, response.note]);
+            setNotesArray([...notesArray, response.note])
             navigate(`/note/${response.note.id}`);
             setNewNoteTitle("")
         }
@@ -53,13 +57,16 @@ const NotePage = () => {
     const displayTextContent = () => {
         setDisplayButton(false)
         setDisplayTextArea(true)
+        refTextData.current.focus()
     }
-
     useEffect(() => {
         enabledButton(newNoteTitle)
-        
+        refNewNoteTitle.current.focus()
     }, [newNoteTitle])
 
+    useEffect(()=> {
+        refTextData.current.focus()
+    },[displayTextArea])
 
     return (
         <>
@@ -72,6 +79,7 @@ const NotePage = () => {
                         onChange={handleTextChange}
                         value={newNoteTitle}
                         placeholder="New Note"
+                        
                     ></input>
                 </div>
                 <div 
@@ -92,7 +100,7 @@ const NotePage = () => {
                             src="src/assets/text.svg"
                             className=""
                             style={{ width: "25px", height: "25px" }}
-                            alt="New"
+                            alt="NewText"
                         />
                     </button>
                     <button 
@@ -100,13 +108,12 @@ const NotePage = () => {
                         id="createListContent"
                         style={{maxWidth: 240}}
                         className="btn w-100 btn-block d-flex justify-content-center align-items-center bg-yellow mx-2 "
-                        
                     >
                         <img
                             src="src/assets/list-check.svg"
                             className=""
                             style={{ width: "25px", height: "25px" }}
-                            alt="New"
+                            alt="NewList"
                         />
                     </button>
                 </div>
@@ -114,24 +121,19 @@ const NotePage = () => {
                     className="w-100"
                     style={{
                         visibility: displayTextArea ? "visible" : "hidden",
-                        
-
                     }}
-                    ref={refTextData}
-                    onChange={handleTextAreaChange}
-                    onBlur={createNewNote}
+
                 >
                     <textarea
-                        className="w-100 h-"
+                        ref={refTextData}
+                        onBlur={createNewNote}
+                        className="w-100 "
                         value={textData}
+                        onChange={handleTextAreaChange}
                         style={{
-                            overflow: "hidden",
                              height: "33vh" 
                         }}
-                    
                     />
-
-
                 </div>
             </div>
         </>

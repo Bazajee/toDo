@@ -5,7 +5,7 @@ import { noteData } from "../appState/noteData"
 
 const HomeNote = ({ note, loading, setLoading }) => {
     const navigate = useNavigate()
-    const { notesArray, setNotesArray, initNotes, deleteNote } = noteData()
+    const {  deleteNote } = noteData()
 
 
     const clickOnNote = (id) => {
@@ -14,7 +14,7 @@ const HomeNote = ({ note, loading, setLoading }) => {
 
     const deleteHomeNote = async (noteId) => {
         setLoading(true)
-        const deleteResponse = await postRequest("/note-manager/delete-note", {noteId: noteId})
+        const deleteResponse = await getRequest(`/note-manager/delete-note?noteId=${noteId}`)
         if (deleteResponse){
             deleteNote(noteId)
         }
@@ -30,7 +30,6 @@ const HomeNote = ({ note, loading, setLoading }) => {
                 }}
             >
                 <h3 className="text-truncate ms-1 me-1 d-flex justify-content-start ">{note.title}</h3>
-                <p className="text-truncate ms-1 me-1 d-flex justify-content-start ">{note.creationDate} </p>
             </div>
             <div className=" d-flex justify-content-end align-items-start">
                 <button 

@@ -14,10 +14,10 @@ const loginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = { email: email, password: password };
+        const formData = { email: email, password: password }
         try {
-            const response = await postRequest("/auth/login", formData);
-            login(formData)
+            const response = await postRequest("/auth/login", formData)
+            login({email: response.userData.mail, username: response.userData.username})
             navigate("")
         } catch (error) {
             setMessage(`Login failed: ${error.response.data.message}`);
@@ -58,16 +58,21 @@ const loginPage = () => {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn bg-yellow w-100">
+                    <button 
+                        type="submit" 
+                        className="btn bg-yellow w-100"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarNavAltMarkup"
+                    >
                         Login
                     </button>
                 </form>
                 <div className="text-center mt-3">
-                    <div className="text-center mt-3">
+                    {/* <div className="text-center mt-3">
                         <a href="#" className="text-decoration-none link-secondary" >
                             Forgot your password?
                         </a>
-                    </div>
+                    </div> */}
                     <div className="text-center mt-3">
                         <a
                             href="#"
@@ -80,6 +85,11 @@ const loginPage = () => {
                     <div>
                         <p className="text-danger" id="displayMessage">
                             {message}
+                        </p>
+                    </div>
+                    <div>
+                        <p className="text-secondary" >
+                            Use random email to test the application.
                         </p>
                     </div>
                 </div>
