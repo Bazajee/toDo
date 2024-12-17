@@ -31,7 +31,7 @@ const NotePage = () => {
 
     const createNewNote = async () => {
         if (newNoteTitle) {
-            const response = await postRequest("/note-manager/new-note", 
+            const response = await postRequest("/api/note-manager/new-note", 
                 {
                     title: newNoteTitle,
                     noteContent : {

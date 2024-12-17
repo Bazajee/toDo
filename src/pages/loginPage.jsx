@@ -16,7 +16,7 @@ const loginPage = () => {
         e.preventDefault();
         const formData = { email: email, password: password }
         try {
-            const response = await postRequest("/auth/login", formData)
+            const response = await postRequest("/api/auth/login", formData)
             login({email: response.userData.mail, username: response.userData.username})
             navigate("")
         } catch (error) {
@@ -61,8 +61,6 @@ const loginPage = () => {
                     <button 
                         type="submit" 
                         className="btn bg-yellow w-100"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup"
                     >
                         Login
                     </button>
