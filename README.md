@@ -1,4 +1,11 @@
+# Todo front
+
+React note app. 
+CSS made with bootstrap.
+
 # React + Vite
+
+To test the application, register with a random e-mail address, then log in with this address.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
