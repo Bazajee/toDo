@@ -33,7 +33,7 @@ const TextBlock = ({
     }
     
     const updateTextBlock = async (blockId, newData) => {
-        const update = await postRequest("/note-manager/update-text",
+        const update = await postRequest("/api/note-manager/update-text",
             {
                 blockId: blockId,
                 noteContent: {
@@ -47,7 +47,7 @@ const TextBlock = ({
 
 
     const deleteTextBlock= async (textBlockId) => {
-        const response = await getRequest(`/note-manager/delete-text-block?noteId=${textBlockId}`)
+        const response = await getRequest(`/api/note-manager/delete-text-block?noteId=${textBlockId}`)
         if (response.id == textBlockId){
             removeTextBlock(response)
             initContentData(content)

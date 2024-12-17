@@ -14,7 +14,7 @@ const HomeNote = ({ note, loading, setLoading }) => {
 
     const deleteHomeNote = async (noteId) => {
         setLoading(true)
-        const deleteResponse = await getRequest(`/note-manager/delete-note?noteId=${noteId}`)
+        const deleteResponse = await getRequest(`/api/note-manager/delete-note?noteId=${noteId}`)
         if (deleteResponse){
             deleteNote(noteId)
         }

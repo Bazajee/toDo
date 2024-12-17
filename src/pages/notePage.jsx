@@ -57,7 +57,7 @@ const NotePage = () => {
 
     const fetchNoteContent = async (noteId) => {
         try {
-            const response = await getRequest(`/note-manager/get-note-content?noteId=${noteId}`)
+            const response = await getRequest(`/api/note-manager/get-note-content?noteId=${noteId}`)
             if (response.noteContent) {
                 response.noteContent.isSync = true
                 response.noteContent.latestSync = Date.now()
@@ -88,7 +88,7 @@ const NotePage = () => {
     }
     
     const createTextBlock = async (noteId, data) => {
-        const response = await postRequest("/note-manager/create-content", 
+        const response = await postRequest("/api/note-manager/create-content", 
             {
                 "noteId":noteId,
                 "place":contentData.length,

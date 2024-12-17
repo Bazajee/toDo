@@ -18,7 +18,7 @@ const home = () => {
 
     const initData = async () => {
         setLoading(true);
-        const notesResponse = await getRequest("/note-manager/get-notes");
+        const notesResponse = await getRequest("/api/note-manager/get-notes");
         if (user && notesResponse.notes) {
             const init = await initNotes(notesResponse.notes);
         }

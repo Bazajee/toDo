@@ -22,7 +22,7 @@ const SignUpPage = () => {
             return ''
         } 
         try{
-            const request =  await postRequest('/auth/sign-up', formData)
+            const request =  await postRequest('/api/auth/sign-up', formData)
             navigate('/')
         } catch (error) {
             setMessage(`Creation failed: ${error.response.data.message}`)
