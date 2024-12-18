@@ -39,7 +39,7 @@ const HomeNote = ({ note, loading, setLoading }) => {
                 >
                     <img
 						className=""
-                        src="src/assets/delete.svg"
+                        src="public/assets/delete.svg"
                         style={{ width: "30px", height: "30px" }}
                     ></img>
                 </button>
