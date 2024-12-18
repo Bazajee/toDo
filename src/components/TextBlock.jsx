@@ -99,7 +99,7 @@ const TextBlock = ({
                         >
                             <img
                                 className=""
-                                src="/src/assets/delete.svg"
+                                src="/assets/delete.svg"
                                 style={{ width: "30px", height: "30px" }}
                             ></img>
                         </button>

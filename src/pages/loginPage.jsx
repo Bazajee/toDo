@@ -87,7 +87,7 @@ const loginPage = () => {
                     </div>
                     <div>
                         <p className="text-secondary" >
-                            Use random email to test the application.
+                            SignUp with random email to test the application.
                         </p>
                     </div>
                 </div>
