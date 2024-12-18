@@ -97,7 +97,7 @@ const NotePage = () => {
                         onClick={displayTextContent}
                     >
                         <img
-                            src="src/assets/text.svg"
+                            src="/assets/text.svg"
                             className=""
                             style={{ width: "25px", height: "25px" }}
                             alt="NewText"
@@ -110,7 +110,7 @@ const NotePage = () => {
                         className="btn w-100 btn-block d-flex justify-content-center align-items-center bg-yellow mx-2 "
                     >
                         <img
-                            src="src/assets/list-check.svg"
+                            src="/assets/list-check.svg"
                             className=""
                             style={{ width: "25px", height: "25px" }}
                             alt="NewList"

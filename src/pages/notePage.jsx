@@ -151,7 +151,7 @@ const NotePage = () => {
                                                 >
                                                     <img
                                                         src={
-                                                            displayAddButton ? "/src/assets/reduce.svg" : "/src/assets/add.svg"
+                                                            displayAddButton ? "/assets/reduce.svg" : "/assets/add.svg"
                                                         }
                                                         style={{ width: "30px", height: "30px" }}
                                                         alt="openAdd"                                            
@@ -175,7 +175,7 @@ const NotePage = () => {
                                                         onClick={toggleAddText}
                                                     >
                                                         <img
-                                                            src="/src/assets/text.svg"
+                                                            src="/assets/text.svg"
                                                             style={{ width: "25px", height: "25px" }}
                                                             alt="openAdd"                                            
                                                         />
@@ -189,7 +189,7 @@ const NotePage = () => {
                                                         disabled = {true}
                                                     >
                                                         <img
-                                                            src="/src/assets/list-check.svg"
+                                                            src="/assets/list-check.svg"
                                                             style={{ width: "30px", height: "30px" }}
                                                             alt="openAdd"                                            
                                                         />

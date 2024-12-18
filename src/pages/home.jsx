@@ -47,7 +47,7 @@ const home = () => {
                         onClick={clickOnNewNote}
                     >
                         <img
-                            src="src/assets/pen.svg"
+                            src="/assets/pen.svg"
                             className=""
                             style={{ width: "25px", height: "25px" }}
                             alt="New"
